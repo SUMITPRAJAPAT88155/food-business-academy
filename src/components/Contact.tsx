@@ -88,7 +88,8 @@ export default function Contact() {
       errors[field] ? 'border-terracotta-400 bg-terracotta-50/30' : 'border-charcoal-200'
     }`;
 
-  const whatsappLink = `https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`;
+  const whatsappLink = `https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, '')}
+  ?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`;
 
   const contactCards = [
     {

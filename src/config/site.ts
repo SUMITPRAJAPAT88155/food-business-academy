@@ -4,9 +4,9 @@ export const siteConfig = {
   brand: 'Food Business Academy',
   // Replace these placeholders with your real contact info
   contact: {
-    phone: 'YOUR_PHONE_NUMBER',
-    email: 'YOUR_EMAIL',
-    whatsapp: 'YOUR_WHATSAPP_NUMBER',
+    phone: '91 8815553280',
+    email: 'sumit.cs1978@mitindore.co.in',
+    whatsapp: '918815553280',
     whatsappMessage:
       'Hi, I would like to know more about Food Business Academy and your consulting programs.',
   },
