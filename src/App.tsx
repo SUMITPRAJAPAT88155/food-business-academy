@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import Stats from '@/components/Stats';
 import About from '@/components/About';
 import Services from '@/components/Services';
+import BusinessModels from '@/components/BusinessModels';
 import Programs from '@/components/Programs';
 import SuccessStories from '@/components/SuccessStories';
 import WhyChooseUs from '@/components/WhyChooseUs';
@@ -23,6 +24,7 @@ export default function App() {
         <Stats />
         <About />
         <Services />
+        <BusinessModels />
         <Programs />
         <SuccessStories />
         <WhyChooseUs />
