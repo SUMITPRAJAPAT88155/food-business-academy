@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Check, ArrowRight, X, Star, Award, Crown, Sparkles, Target, Users, Layers } from 'lucide-react';
+import { Check, ArrowRight, X, Star, Rocket, TrendingUp, Crown, Target, Users, Layers, ClipboardList, Settings2, BarChart3 } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 type Tier = 'silver' | 'gold' | 'platinum';
@@ -9,12 +9,12 @@ interface Program {
   badge: string;
   name: string;
   headline: string;
+  positioning: string;
+  focusAreas: string[];
   bestFor: string;
-  description: string;
-  benefits: string[];
   cta: string;
   featured: boolean;
-  icon: typeof Sparkles;
+  icon: typeof Rocket;
 }
 
 interface ProgramDetail {
@@ -29,58 +29,62 @@ const programs: Program[] = [
     tier: 'silver',
     badge: 'FOUNDATION',
     name: 'Silver',
-    headline: 'Build the Right Foundation',
-    bestFor: 'For aspiring and early-stage food entrepreneurs',
-    description: 'Understand the fundamentals of building a strong and profitable food business before you invest your time and money.',
-    benefits: [
-      'Food Business Fundamentals',
-      'Business Concept & Planning',
-      'Menu Planning & Costing',
-      'Pricing & Profit Basics',
-      'Business Setup Roadmap',
-      'Practical Growth Guidance',
+    headline: 'Start Your Food Business Right',
+    positioning: 'For entrepreneurs who are starting their food-business journey.',
+    focusAreas: [
+      'Food business idea validation',
+      'Business model selection',
+      'Market research',
+      'Menu planning',
+      'Food costing',
+      'Pricing strategy',
+      'Basic launch planning',
     ],
-    cta: 'Explore Silver',
+    bestFor: 'First-time food entrepreneurs and people planning to start a food business.',
+    cta: 'Explore Program',
     featured: false,
-    icon: Sparkles,
+    icon: Rocket,
   },
   {
     tier: 'gold',
     badge: 'GROWTH',
     name: 'Gold',
-    headline: 'Launch & Grow Your Food Business',
-    bestFor: 'For entrepreneurs ready to launch, improve or grow their food business',
-    description: 'Learn practical systems for launching and growing a restaurant, cloud kitchen or food brand with better strategy, operations and marketing.',
-    benefits: [
-      'Business Launch Strategy',
-      'Restaurant / Cloud Kitchen Setup',
-      'Menu & Pricing Strategy',
-      'Food Cost & Margin Management',
-      'Marketing & Customer Acquisition',
-      'Operations & Business Systems',
-      'Growth Planning',
+    headline: 'Build Systems & Grow',
+    positioning: 'For food-business owners who want to build systems and grow.',
+    focusAreas: [
+      'Business growth strategy',
+      'Marketing strategy',
+      'Customer acquisition',
+      'Sales systems',
+      'Operations',
+      'Team management',
+      'SOPs',
+      'Automation',
+      'Growth planning',
     ],
-    cta: 'Explore Gold',
+    bestFor: 'Existing restaurants, cafes, cloud kitchens and food-business owners who want structured growth.',
+    cta: 'Explore Program',
     featured: true,
-    icon: Award,
+    icon: TrendingUp,
   },
   {
     tier: 'platinum',
     badge: 'MASTERY',
     name: 'Platinum',
-    headline: 'Build a Scalable Food Business',
-    bestFor: 'For serious food entrepreneurs seeking deeper strategy and accountability',
-    description: 'Get a more advanced business-growth approach focused on strategy, systems, profitability and sustainable expansion.',
-    benefits: [
-      'Personalized Business Strategy',
-      'Advanced Profitability Planning',
-      'Operations & Management Systems',
-      'Marketing & Sales Strategy',
-      'Growth & Expansion Planning',
-      'Accountability & Implementation Support',
-      'Long-Term Business Roadmap',
+    headline: 'Scale & Systemize',
+    positioning: 'For established food businesses that want advanced systems, automation and scaling.',
+    focusAreas: [
+      'Advanced business systems',
+      'SOP implementation',
+      'Automation',
+      'Dashboards and reporting',
+      'Team systems',
+      'Process optimization',
+      'Scaling strategy',
+      'Franchise readiness',
     ],
-    cta: 'Explore Platinum',
+    bestFor: 'Established food businesses preparing for serious scaling and systemization.',
+    cta: 'Explore Program',
     featured: false,
     icon: Crown,
   },
@@ -89,78 +93,83 @@ const programs: Program[] = [
 const programDetails: Record<Tier, ProgramDetail> = {
   silver: {
     whoItsFor:
-      'Ideal for individuals who are planning to start a food business or are in the very early stages of setting one up. If you have an idea but are unsure where to begin, this is your starting point.',
+      'Designed for first-time food entrepreneurs and individuals who are planning to start a food business but have not launched yet. If you have a concept in mind and want to get the foundations right before investing your time and money, this is where you begin.',
     whatYouLearn: [
-      'How the food business actually works — the real fundamentals',
-      'How to validate your business concept before investing',
-      'Menu planning, food costing and pricing basics',
-      'How to create a practical business setup roadmap',
-      'Common mistakes first-time food entrepreneurs make and how to avoid them',
+      'How to validate your food business idea before you spend money',
+      'Choosing the right business model — restaurant, cloud kitchen, cafe, food brand or home kitchen',
+      'Practical market research to understand your audience and competition',
+      'Menu planning that aligns with your concept and target customer',
+      'Food costing fundamentals so you understand what each dish really costs',
+      'Pricing strategy to protect your margins from day one',
+      'A basic launch plan that takes you from idea to opening step by step',
     ],
     keyOutcomes: [
-      'Clarity on whether your food business idea is viable',
-      'A foundational understanding of costs, pricing and profitability',
-      'A step-by-step roadmap for setting up your business',
-      'Confidence to move forward with the right foundations',
+      'Clarity on whether your food business idea is viable and worth pursuing',
+      'A clear understanding of which business model fits your goals and resources',
+      'A foundational grasp of costing and pricing so you do not underprice',
+      'A practical, step-by-step launch plan you can follow with confidence',
     ],
     howItWorks: [
-      'Structured guidance sessions covering core business fundamentals',
-      'Practical exercises and frameworks you can apply immediately',
-      'Access to resources and templates for planning and costing',
-      'Ongoing guidance to keep you on the right track',
+      'Structured guidance sessions covering each foundation area',
+      'Practical frameworks and exercises you apply to your own concept',
+      'Templates for menu planning, costing and basic launch checklists',
+      'Guidance to help you avoid the common mistakes first-time entrepreneurs make',
     ],
   },
   gold: {
     whoItsFor:
-      'Designed for entrepreneurs who are ready to launch their food business or have recently started and want to grow. Whether it is a restaurant, cloud kitchen, cafe or food brand — this program helps you build real momentum.',
+      'Built for existing food-business owners — restaurants, cafes, cloud kitchens and food brands — who have launched but are struggling to grow consistently. If your business is running but lacks systems, marketing clarity or a growth plan, this program helps you build the structure you need.',
     whatYouLearn: [
-      'A complete launch strategy tailored to your business type',
-      'Restaurant and cloud kitchen setup essentials',
-      'Menu engineering and pricing strategy for profitability',
-      'Food cost and margin management systems',
-      'Marketing and customer acquisition strategies that work',
-      'Operations and business systems for smoother day-to-day running',
-      'How to plan and prepare for sustainable growth',
+      'A structured growth strategy tailored to your specific business type',
+      'Marketing strategy to attract customers consistently rather than relying on word of mouth',
+      'Customer acquisition systems that bring in a steady flow of orders or walk-ins',
+      'Sales systems to increase average order value and repeat business',
+      'Operations improvements that reduce chaos and make day-to-day running smoother',
+      'Team management fundamentals so you can delegate without losing control',
+      'SOPs (Standard Operating Procedures) so your business runs the same way every day',
+      'Automation tools to reduce manual work in marketing, orders and reporting',
+      'A practical growth plan with clear priorities and milestones',
     ],
     keyOutcomes: [
-      'A clear launch or growth strategy for your specific business',
-      'Better control over your costs, margins and pricing',
-      'A structured approach to marketing and customer acquisition',
-      'Operational systems that make your business easier to run',
-      'A practical growth plan you can implement step by step',
+      'A clear growth strategy with prioritized actions for your business',
+      'Marketing and customer acquisition systems that produce consistent results',
+      'Operations and SOPs that make your business less dependent on you personally',
+      'A team management structure that allows you to scale without burnout',
+      'A growth roadmap with milestones you can track and measure',
     ],
     howItWorks: [
-      'Deep-dive strategy sessions focused on your business',
-      'Custom frameworks for operations, costing and marketing',
-      'Templates, tools and systems you can implement directly',
-      'Regular check-ins to track progress and course-correct',
+      'Deep-dive strategy sessions focused on your specific business and challenges',
+      'Custom frameworks for marketing, operations and team management',
+      'SOP templates and automation tools you can implement directly',
+      'Regular check-ins to track progress, solve problems and course-correct',
     ],
   },
   platinum: {
     whoItsFor:
-      'For serious food entrepreneurs and business owners who want a deeper, more advanced approach to growth. If you are committed to building a scalable, profitable and sustainable food business, this is for you.',
+      'For established food businesses that are ready for serious scaling and systemization. If you have a working business, a team and revenue — but operations still depend heavily on you, and growth feels blocked by a lack of systems — this program is designed to take you to the next level.',
     whatYouLearn: [
-      'Personalized business strategy built around your specific goals',
-      'Advanced profitability planning and financial systems',
-      'Operations and management systems for multi-location or high-volume growth',
-      'Marketing and sales strategy for sustained customer acquisition',
-      'Growth and expansion planning — including new locations, brands or revenue streams',
-      'Accountability and implementation support to keep you executing',
-      'A long-term business roadmap with clear milestones',
+      'Advanced business systems that allow your operation to run without your daily involvement',
+      'Full SOP implementation across kitchen, operations, service and management',
+      'Automation of repetitive tasks — ordering, inventory, reporting and marketing',
+      'Dashboards and reporting systems so you can see your business performance at a glance',
+      'Team systems — hiring, training, performance tracking and accountability structures',
+      'Process optimization to reduce waste, improve speed and increase consistency',
+      'A scaling strategy for new locations, new revenue streams or brand expansion',
+      'Franchise readiness — the systems, documentation and standards required to scale replicably',
     ],
     keyOutcomes: [
-      'A personalized, advanced growth strategy for your business',
-      'Stronger financial control and profitability systems',
-      'Scalable operations that can handle growth without breaking',
-      'A clear long-term roadmap with actionable milestones',
-      'Ongoing accountability to ensure consistent execution',
+      'A business that runs on systems rather than on your personal daily effort',
+      'Complete SOPs and automation that reduce operational chaos and manual workload',
+      'Dashboards that give you real-time visibility into costs, sales and performance',
+      'A structured team system that supports growth without losing quality',
+      'A clear scaling or expansion roadmap — whether that means new outlets, franchise readiness or brand growth',
     ],
     howItWorks: [
-      'One-to-one strategic consulting tailored to your business',
-      'Comprehensive business audit and opportunity analysis',
-      'Custom growth roadmap with prioritized action steps',
-      'Regular accountability sessions to track implementation',
-      'Ongoing access to strategic guidance as you scale',
+      'One-to-one strategic consulting focused on your scaling goals',
+      'Comprehensive business audit to identify system gaps and growth blockers',
+      'Custom implementation plan with prioritized systems and SOPs',
+      'Hands-on guidance through automation and dashboard setup',
+      'Regular accountability sessions to ensure implementation stays on track',
     ],
   },
 };
@@ -219,40 +228,45 @@ function ProgramCard({
         <h3 className={`font-serif text-2xl font-bold mb-1 ${featured ? 'text-cream-50' : 'text-charcoal-900'}`}>
           {program.name}
         </h3>
-        <p className={`font-serif text-sm italic mb-4 ${featured ? 'text-gold-400' : 'text-gold-600'}`}>
+        <p className={`font-serif text-sm italic mb-5 ${featured ? 'text-gold-400' : 'text-gold-600'}`}>
           {program.headline}
         </p>
 
-        {/* Best for */}
-        <p className={`text-[11px] font-semibold uppercase tracking-wider mb-3 ${featured ? 'text-cream-200/40' : 'text-charcoal-400'}`}>
-          Best for
-        </p>
-        <p className={`text-sm leading-relaxed mb-5 ${featured ? 'text-cream-200/60' : 'text-charcoal-600'}`}>
-          {program.bestFor}
-        </p>
-
-        {/* Description */}
-        <p className={`text-sm leading-relaxed mb-6 ${featured ? 'text-cream-200/50' : 'text-charcoal-500'}`}>
-          {program.description}
+        {/* Positioning */}
+        <p className={`text-sm leading-relaxed mb-6 ${featured ? 'text-cream-200/60' : 'text-charcoal-600'}`}>
+          {program.positioning}
         </p>
 
         {/* Divider */}
         <div className={`h-px mb-6 ${featured ? 'bg-cream-200/10' : 'bg-charcoal-100'}`} />
 
-        {/* Benefits */}
+        {/* Focus Areas */}
+        <p className={`text-[11px] font-semibold uppercase tracking-wider mb-4 ${featured ? 'text-cream-200/40' : 'text-charcoal-400'}`}>
+          Focus Areas
+        </p>
         <div className="space-y-2.5 mb-8 flex-1">
-          {program.benefits.map((benefit) => (
-            <div key={benefit} className="flex items-start gap-2.5">
+          {program.focusAreas.map((area) => (
+            <div key={area} className="flex items-start gap-2.5">
               <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
                 featured ? 'bg-gold-400/20' : 'bg-gold-400/15'
               }`}>
                 <Check className={`w-3 h-3 ${featured ? 'text-gold-400' : 'text-gold-600'}`} strokeWidth={3} />
               </div>
               <span className={`text-[13px] leading-snug ${featured ? 'text-cream-100/85' : 'text-charcoal-700'}`}>
-                {benefit}
+                {area}
               </span>
             </div>
           ))}
+        </div>
+
+        {/* Best For */}
+        <div className={`mb-7 p-4 rounded-lg ${featured ? 'bg-charcoal-800/60' : 'bg-cream-100/70'}`}>
+          <p className={`text-[10px] font-semibold uppercase tracking-wider mb-1.5 ${featured ? 'text-gold-400/70' : 'text-gold-600/80'}`}>
+            Best For
+          </p>
+          <p className={`text-[13px] leading-relaxed ${featured ? 'text-cream-200/55' : 'text-charcoal-600'}`}>
+            {program.bestFor}
+          </p>
         </div>
 
         {/* CTA */}
@@ -304,7 +318,7 @@ function ProgramModal({
   const detailSections = [
     {
       icon: Users,
-      title: 'Who It&rsquo;s For',
+      title: 'Who It\u2019s For',
       content: detail.whoItsFor,
       type: 'text' as const,
     },
@@ -315,7 +329,7 @@ function ProgramModal({
       type: 'list' as const,
     },
     {
-      icon: Award,
+      icon: BarChart3,
       title: 'Key Outcomes',
       items: detail.keyOutcomes,
       type: 'list' as const,
@@ -329,7 +343,7 @@ function ProgramModal({
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-charcoal-950/80 backdrop-blur-sm animate-fade-in"
@@ -338,16 +352,16 @@ function ProgramModal({
 
       {/* Modal */}
       <div
-        className={`relative w-full max-w-2xl my-8 rounded-2xl overflow-hidden shadow-2xl animate-scale-in ${
+        className={`relative w-full max-w-2xl my-4 sm:my-8 rounded-2xl overflow-hidden shadow-2xl animate-scale-in ${
           featured ? 'border-2 border-gold-400/40' : 'border border-charcoal-200'
         }`}
       >
         {/* Header */}
-        <div className={`relative px-6 sm:px-8 py-6 ${featured ? 'bg-charcoal-900' : 'bg-white'}`}>
+        <div className={`relative px-5 sm:px-8 py-5 sm:py-6 ${featured ? 'bg-charcoal-900' : 'bg-white'}`}>
           {/* Close */}
           <button
             onClick={onClose}
-            className={`absolute top-5 right-5 w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
+            className={`absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
               featured
                 ? 'bg-charcoal-800 text-cream-200/60 hover:bg-charcoal-700 hover:text-cream-50'
                 : 'bg-charcoal-100 text-charcoal-500 hover:bg-charcoal-200 hover:text-charcoal-800'
@@ -357,15 +371,15 @@ function ProgramModal({
             <X className="w-5 h-5" />
           </button>
 
-          <div className="flex items-center gap-4 mb-3">
+          <div className="flex items-center gap-4 mb-3 pr-10">
             <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
               featured ? 'bg-gold-400/15 border border-gold-400/20' : 'bg-charcoal-900/5'
             }`}>
               <Icon className={`w-6 h-6 ${featured ? 'text-gold-400' : 'text-charcoal-700'}`} strokeWidth={1.5} />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className={`font-serif text-2xl font-bold ${featured ? 'text-cream-50' : 'text-charcoal-900'}`}>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className={`font-serif text-xl sm:text-2xl font-bold ${featured ? 'text-cream-50' : 'text-charcoal-900'}`}>
                   {program.name}
                 </h3>
                 <span className={`text-[10px] font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-full ${
@@ -382,13 +396,13 @@ function ProgramModal({
             </div>
           </div>
           <p className={`text-sm leading-relaxed ${featured ? 'text-cream-200/60' : 'text-charcoal-600'}`}>
-            {program.bestFor}
+            {program.positioning}
           </p>
         </div>
 
         {/* Body */}
-        <div className="bg-cream-50 px-6 sm:px-8 py-7 max-h-[60vh] overflow-y-auto">
-          <div className="space-y-7">
+        <div className="bg-cream-50 px-5 sm:px-8 py-6 sm:py-7 max-h-[55vh] sm:max-h-[60vh] overflow-y-auto">
+          <div className="space-y-6 sm:space-y-7">
             {detailSections.map((section) => {
               const SectionIcon = section.icon;
               return (
@@ -397,10 +411,9 @@ function ProgramModal({
                     <div className="w-7 h-7 rounded-md bg-gold-400/15 flex items-center justify-center flex-shrink-0">
                       <SectionIcon className="w-4 h-4 text-gold-600" strokeWidth={1.5} />
                     </div>
-                    <h4
-                      className="font-serif text-base font-bold text-charcoal-900"
-                      dangerouslySetInnerHTML={{ __html: section.title }}
-                    />
+                    <h4 className="font-serif text-base font-bold text-charcoal-900">
+                      {section.title}
+                    </h4>
                   </div>
 
                   {section.type === 'text' ? (
@@ -426,7 +439,7 @@ function ProgramModal({
         </div>
 
         {/* Footer CTA */}
-        <div className="bg-white px-6 sm:px-8 py-6 border-t border-charcoal-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-white px-5 sm:px-8 py-5 sm:py-6 border-t border-charcoal-100 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-charcoal-500 text-center sm:text-left">
             Ready to get started with {program.name}?
           </p>
